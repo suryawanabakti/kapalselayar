@@ -53,7 +53,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\Schedule::create([
             'ship_id' => $ship1->id,
             'departure_date' => now()->addDays(2)->format('Y-m-d'),
-            'departure_time' => '08:00:00',
+            'departure_time' => '08:00:01',
             'price' => 150000,
             'quota' => 50,
         ]);
