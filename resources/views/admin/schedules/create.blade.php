@@ -31,6 +31,40 @@
 
                         <div class="grid grid-cols-2 gap-4 mb-4">
                             <div>
+                                <label for="origin_port_id" class="block text-sm font-medium text-gray-700 mb-1">Pelabuhan Asal</label>
+                                <select name="origin_port_id" id="origin_port_id" required
+                                    class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">Pilih Pelabuhan Asal</option>
+                                    @foreach ($ports as $port)
+                                        <option value="{{ $port->id }}" {{ old('origin_port_id') == $port->id ? 'selected' : '' }}>
+                                            {{ $port->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('origin_port_id')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label for="destination_port_id" class="block text-sm font-medium text-gray-700 mb-1">Pelabuhan Tujuan</label>
+                                <select name="destination_port_id" id="destination_port_id" required
+                                    class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">Pilih Pelabuhan Tujuan</option>
+                                    @foreach ($ports as $port)
+                                        <option value="{{ $port->id }}" {{ old('destination_port_id') == $port->id ? 'selected' : '' }}>
+                                            {{ $port->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('destination_port_id')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
                                 <label for="departure_date" class="block text-sm font-medium text-gray-700 mb-1">Tanggal
                                     Keberangkatan</label>
                                 <input type="date" name="departure_date" id="departure_date"

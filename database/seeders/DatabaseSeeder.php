@@ -50,8 +50,15 @@ class DatabaseSeeder extends Seeder
             'capacity' => 200,
         ]);
 
+        $port1 = \App\Models\Port::create(['name' => 'Bira']);
+        $port2 = \App\Models\Port::create(['name' => 'Pamatata']);
+        $port3 = \App\Models\Port::create(['name' => 'Pattumbukang']);
+        $port4 = \App\Models\Port::create(['name' => 'Lembang Jaya']);
+
         \App\Models\Schedule::create([
             'ship_id' => $ship1->id,
+            'origin_port_id' => $port1->id,
+            'destination_port_id' => $port2->id,
             'departure_date' => now()->addDays(2)->format('Y-m-d'),
             'departure_time' => '08:00:01',
             'price' => 150000,
@@ -60,6 +67,8 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Schedule::create([
             'ship_id' => $ship2->id,
+            'origin_port_id' => $port2->id,
+            'destination_port_id' => $port1->id,
             'departure_date' => now()->addDays(5)->format('Y-m-d'),
             'departure_time' => '14:30:10',
             'price' => 200000,

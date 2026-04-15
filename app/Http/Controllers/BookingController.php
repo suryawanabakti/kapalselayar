@@ -21,10 +21,26 @@ class BookingController extends Controller
         Config::$is3ds = config('services.midtrans.is_3ds');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $schedules = Schedule::with('ship')->get();
-        return view('bookings.index', compact('schedules'));
+        $query = Schedule::with(['ship', 'originPort', 'destinationPort'])->where('quota', '>', 0);
+
+        if ($request->filled('origin_port_id')) {
+            $query->where('origin_port_id', $request->origin_port_id);
+        }
+
+        if ($request->filled('destination_port_id')) {
+            $query->where('destination_port_id', $request->destination_port_id);
+        }
+
+        if ($request->filled('departure_date')) {
+            $query->whereDate('departure_date', $request->departure_date);
+        }
+
+        $schedules = $query->orderBy('departure_date', 'asc')->orderBy('departure_time', 'asc')->get();
+        $ports = \App\Models\Port::orderBy('name')->get();
+
+        return view('bookings.index', compact('schedules', 'ports'));
     }
 
     public function show(Schedule $schedule)

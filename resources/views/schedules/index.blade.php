@@ -27,6 +27,26 @@
                         </div>
 
                         <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Pelabuhan Asal</label>
+                            <select name="origin_port_id" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                <option value="">Semua Asal</option>
+                                @foreach($ports ?? [] as $port)
+                                    <option value="{{ $port->id }}" {{ request('origin_port_id') == $port->id ? 'selected' : '' }}>{{ $port->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Pelabuhan Tujuan</label>
+                            <select name="destination_port_id" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                <option value="">Semua Tujuan</option>
+                                @foreach($ports ?? [] as $port)
+                                    <option value="{{ $port->id }}" {{ request('destination_port_id') == $port->id ? 'selected' : '' }}>{{ $port->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Dari Tanggal</label>
                             <input type="date" name="date_from" value="{{ request('date_from') }}"
                                 class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
@@ -68,6 +88,9 @@
                             <div class="flex justify-between items-start">
                                 <div>
                                     <h3 class="text-2xl font-bold mb-1">{{ $schedule->ship->name }}</h3>
+                                    <p class="text-blue-100 text-sm font-semibold mb-1">
+                                        ⛴️ {{ optional($schedule->originPort)->name }} ➔ {{ optional($schedule->destinationPort)->name }}
+                                    </p>
                                     <p class="text-blue-100 text-sm">Kapasitas: {{ $schedule->ship->capacity }} orang
                                     </p>
                                 </div>

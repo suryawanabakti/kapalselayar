@@ -32,6 +32,71 @@
         </div>
     </div>
 
+    <!-- Search Section -->
+    <div class="relative z-10 -mt-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+        <div class="bg-white rounded-3xl shadow-2xl p-8 border border-gray-100">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2">Cari Tiket Anda</h2>
+            <p class="text-gray-600 mb-6">Atur Jadwal Kedatangan Anda di Pelabuhan</p>
+
+            <form action="{{ route('bookings.index') }}#jadwal" method="GET">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center relative">
+                    <!-- Origin -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Pelabuhan Asal</label>
+                        <div class="flex items-center border border-gray-300 rounded-xl p-4 hover:border-blue-500 transition-colors">
+                            <span class="text-gray-400 mr-4 text-2xl">🚢</span>
+                            <select name="origin_port_id" class="w-full bg-transparent border-none focus:ring-0 p-0 text-gray-800 font-medium">
+                                <option value="">Pilih Asal</option>
+                                @foreach($ports as $port)
+                                    <option value="{{ $port->id }}" {{ request('origin_port_id') == $port->id ? 'selected' : '' }}>{{ $port->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Interchange Icon -->
+                    <div class="hidden md:flex absolute left-1/2 top-[55%] transform -translate-x-1/2 -translate-y-1/2 z-20 items-center justify-center">
+                        <div class="bg-white border-2 border-gray-100 p-2 rounded-full shadow-md text-gray-500 hover:text-blue-600 transition-colors cursor-pointer" onclick="swapPorts()">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Destination -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Pelabuhan Tujuan</label>
+                        <div class="flex items-center border border-gray-300 rounded-xl p-4 hover:border-blue-500 transition-colors">
+                            <span class="text-gray-400 mr-4 text-2xl">🚢</span>
+                            <select name="destination_port_id" class="w-full bg-transparent border-none focus:ring-0 p-0 text-gray-800 font-medium">
+                                <option value="">Pilih Tujuan</option>
+                                @foreach($ports as $port)
+                                    <option value="{{ $port->id }}" {{ request('destination_port_id') == $port->id ? 'selected' : '' }}>{{ $port->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 items-end">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Tanggal Keberangkatan</label>
+                        <div class="flex items-center border border-gray-300 rounded-xl p-4 hover:border-blue-500 transition-colors">
+                            <span class="text-gray-400 mr-4 text-2xl">📅</span>
+                            <input type="date" name="departure_date" value="{{ request('departure_date') }}" class="w-full bg-transparent border-none focus:ring-0 p-0 text-gray-800 font-medium">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-4 px-6 rounded-xl text-lg transform hover:scale-105 transition-all duration-300 shadow-md">
+                            🔍 Cari Jadwal
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- About Selayar Section -->
     <div class="bg-gray-50 py-16" id="about">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -173,6 +238,9 @@
                             <div class="flex justify-between items-start">
                                 <div>
                                     <h3 class="text-2xl font-bold mb-1">{{ $schedule->ship->name }}</h3>
+                                    <p class="text-blue-100 text-sm font-semibold mb-1">
+                                        ⛴️ {{ optional($schedule->originPort)->name }} ➔ {{ optional($schedule->destinationPort)->name }}
+                                    </p>
                                     <p class="text-blue-100 text-sm">Kapasitas: {{ $schedule->ship->capacity }} orang
                                     </p>
                                 </div>
@@ -274,4 +342,15 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        function swapPorts() {
+            const originSelect = document.querySelector('select[name="origin_port_id"]');
+            const destSelect = document.querySelector('select[name="destination_port_id"]');
+            
+            const tempVal = originSelect.value;
+            originSelect.value = destSelect.value;
+            destSelect.value = tempVal;
+        }
+    </script>
 </x-app-layout>

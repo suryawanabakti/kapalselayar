@@ -76,6 +76,10 @@
                                 <tr>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Kapal
                                     </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Asal
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tujuan
+                                    </th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal
                                     </th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Waktu
@@ -93,6 +97,12 @@
                                     <tr class="hover:bg-gray-50">
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                             {{ $schedule->ship->name }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {{ optional($schedule->originPort)->name }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {{ optional($schedule->destinationPort)->name }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             {{ \Carbon\Carbon::parse($schedule->departure_date)->format('d M Y') }}

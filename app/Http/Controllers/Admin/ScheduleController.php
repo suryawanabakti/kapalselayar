@@ -47,13 +47,16 @@ class ScheduleController extends Controller
     public function create()
     {
         $ships = Ship::all();
-        return view('admin.schedules.create', compact('ships'));
+        $ports = \App\Models\Port::all();
+        return view('admin.schedules.create', compact('ships', 'ports'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'ship_id' => 'required|exists:ships,id',
+            'origin_port_id' => 'required|exists:ports,id',
+            'destination_port_id' => 'required|exists:ports,id',
             'departure_date' => 'required|date',
             'departure_time' => 'required',
             'price' => 'required|numeric|min:0',
@@ -69,13 +72,16 @@ class ScheduleController extends Controller
     public function edit(Schedule $schedule)
     {
         $ships = Ship::all();
-        return view('admin.schedules.edit', compact('schedule', 'ships'));
+        $ports = \App\Models\Port::all();
+        return view('admin.schedules.edit', compact('schedule', 'ships', 'ports'));
     }
 
     public function update(Request $request, Schedule $schedule)
     {
         $validated = $request->validate([
             'ship_id' => 'required|exists:ships,id',
+            'origin_port_id' => 'required|exists:ports,id',
+            'destination_port_id' => 'required|exists:ports,id',
             'departure_date' => 'required|date',
             'departure_time' => 'required',
             'price' => 'required|numeric|min:0',

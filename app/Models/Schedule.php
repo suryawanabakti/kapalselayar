@@ -12,6 +12,8 @@ class Schedule extends Model
 
     protected $fillable = [
         'ship_id',
+        'origin_port_id',
+        'destination_port_id',
         'departure_date',
         'departure_time',
         'price',
@@ -21,6 +23,16 @@ class Schedule extends Model
     public function ship()
     {
         return $this->belongsTo(Ship::class);
+    }
+
+    public function originPort()
+    {
+        return $this->belongsTo(Port::class, 'origin_port_id');
+    }
+
+    public function destinationPort()
+    {
+        return $this->belongsTo(Port::class, 'destination_port_id');
     }
 
     public function orders()

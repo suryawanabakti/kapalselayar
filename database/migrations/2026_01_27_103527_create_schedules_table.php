@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
             $table->foreignId('ship_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('origin_port_id')->constrained('ports')->cascadeOnDelete();
+            $table->foreignId('destination_port_id')->constrained('ports')->cascadeOnDelete();
             $table->date('departure_date');
             $table->time('departure_time');
             $table->integer('price');
