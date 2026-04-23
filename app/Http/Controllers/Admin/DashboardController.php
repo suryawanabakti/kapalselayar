@@ -123,4 +123,52 @@ class DashboardController extends Controller
 
         return view('admin.reports', compact('orders', 'summary'));
     }
+
+    public function scanner()
+    {
+        return view('admin.scanner');
+    }
+
+    public function validateTicket(Request $request)
+    {
+        $request->validate([
+            'ticket_code' => 'required|string'
+        ]);
+
+        $passenger = \App\Models\Passenger::with(['order.schedule.ship', 'order.schedule.originPort', 'order.schedule.destinationPort'])
+            ->where('ticket_code', $request->ticket_code)
+            ->first();
+
+        if (!$passenger) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tiket tidak ditemukan.'
+            ], 404);
+        }
+
+        if ($passenger->order->status !== 'paid') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tiket belum dibayar.'
+            ], 400);
+        }
+
+        if ($passenger->is_validated) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tiket sudah divalidasi pada ' . $passenger->validated_at->format('d M Y H:i'),
+                'passenger' => $passenger
+            ], 400);
+        }
+
+        $passenger->is_validated = true;
+        $passenger->validated_at = now();
+        $passenger->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Tiket berhasil divalidasi!',
+            'passenger' => $passenger
+        ]);
+    }
 }

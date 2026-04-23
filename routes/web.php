@@ -32,6 +32,8 @@ Route::middleware(['auth', 'role:admin,super_admin'])->prefix('admin')->name('ad
     Route::get('/orders/{id}', [AdminDashboardController::class, 'orderDetail'])->name('orders.detail');
     Route::post('/orders/{id}/approve', [AdminDashboardController::class, 'approveOrder'])->name('orders.approve');
     Route::get('/reports', [AdminDashboardController::class, 'reports'])->name('reports');
+    Route::get('/scanner', [AdminDashboardController::class, 'scanner'])->name('scanner');
+    Route::post('/validate-ticket', [AdminDashboardController::class, 'validateTicket'])->name('validate-ticket');
 
     // Schedule Management
     Route::resource('schedules', AdminScheduleController::class);
@@ -44,6 +46,7 @@ Route::middleware(['auth', 'role:admin,super_admin'])->prefix('admin')->name('ad
 Route::middleware(['auth', 'role:user'])->prefix('user')->name('user.')->group(function () {
     Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions');
     Route::get('/transactions/{id}', [TransactionController::class, 'show'])->name('transactions.show');
+    Route::get('/ticket/{ticket_code}', [TransactionController::class, 'ticket'])->name('transactions.ticket');
 });
 
 Route::middleware('auth')->group(function () {

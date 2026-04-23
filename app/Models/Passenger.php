@@ -13,8 +13,25 @@ class Passenger extends Model
     protected $fillable = [
         'order_id',
         'name',
-        'nik'
+        'nik',
+        'ticket_code',
+        'is_validated',
+        'validated_at'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($passenger) {
+            $passenger->ticket_code = 'TKT-' . strtoupper(bin2hex(random_bytes(4)));
+            
+            // Ensure uniqueness
+            while (static::where('ticket_code', $passenger->ticket_code)->exists()) {
+                $passenger->ticket_code = 'TKT-' . strtoupper(bin2hex(random_bytes(4)));
+            }
+        });
+    }
 
     public function order()
     {

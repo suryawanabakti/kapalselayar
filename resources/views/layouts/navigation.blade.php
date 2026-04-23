@@ -35,6 +35,9 @@
                             <x-nav-link :href="route('admin.reports')" :active="request()->routeIs('admin.reports')">
                                 {{ __('Laporan') }}
                             </x-nav-link>
+                            <x-nav-link :href="route('admin.scanner')" :active="request()->routeIs('admin.scanner')">
+                                {{ __('Scan Tiket') }}
+                            </x-nav-link>
                         @else
                             <x-nav-link :href="url('/')" :active="request()->is('/') || request()->routeIs('bookings.index')">
                                 {{ __('Beranda') }}
@@ -143,6 +146,9 @@
                     </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('admin.reports')" :active="request()->routeIs('admin.reports')">
                         {{ __('Laporan') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('admin.scanner')" :active="request()->routeIs('admin.scanner')">
+                        {{ __('Scan Tiket') }}
                     </x-responsive-nav-link>
                 @else
                     <x-responsive-nav-link :href="url('/')" :active="request()->is('/') || request()->routeIs('bookings.index')">
