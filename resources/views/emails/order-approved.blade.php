@@ -8,14 +8,19 @@
 
     **Detail Perjalanan:**
     - **Kapal:** {{ $order->schedule->ship->name }}
-    - **Rute:** {{ $order->schedule->ship->rute }}
-    - **Tanggal Berangkat:** {{ \Carbon\Carbon::parse($order->schedule->departure_date)->format('d M Y H:i') }}
+    - **Rute:** {{ $order->schedule->originPort->name }} → {{ $order->schedule->destinationPort->name }}
+    - **Tanggal Berangkat:** {{ \Carbon\Carbon::parse($order->schedule->departure_date)->format('d M Y') }} - {{ \Carbon\Carbon::parse($order->schedule->departure_time)->format('H:i') }} WITA
     - **Jumlah Penumpang:** {{ $order->total_ticket }} orang
 
-    Silakan login ke akun Anda untuk mengunduh E-Tiket atau cek riwayat transaksi.
+    **Daftar Tiket Penumpang:**
+    @foreach($order->passengers as $passenger)
+    - **{{ $passenger->name }}**: [Lihat Tiket & QR Code]({{ route('user.transactions.ticket', $passenger->ticket_code) }})
+    @endforeach
+
+    Silakan klik tautan di atas untuk melihat tiket dan QR Code masing-masing penumpang yang akan di-scan di pelabuhan.
 
     <x-mail::button :url="route('user.transactions')">
-        Unduh E-Tiket
+        Lihat Riwayat Transaksi
     </x-mail::button>
 
     Terima kasih telah menggunakan layanan kami.

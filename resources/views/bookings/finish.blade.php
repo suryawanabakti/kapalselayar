@@ -31,11 +31,18 @@
                         <p class="text-gray-600 mb-8">Terjadi kesalahan saat memproses pembayaran. Silakan coba
                             lagi nanti.</p>
                     @endif
+                    @if ($status == 'success')
+                        <a href="{{ route('user.transactions') }}"
+                            class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition shadow-md">
+                            Lihat Tiket
+                        </a>
+                    @else
+                        <a href="{{ route('bookings.index') }}"
+                            class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition shadow-md">
+                            Kembali ke Beranda
+                        </a>
+                    @endif
 
-                    <a href="{{ route('bookings.index') }}"
-                        class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition shadow-md">
-                        Kembali ke Beranda
-                    </a>
                 </div>
             </div>
         </div>

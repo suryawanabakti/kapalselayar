@@ -85,11 +85,13 @@ class PaymentController extends Controller
         $order_id = $notif->order_id;
         $fraud = $notif->fraud_status;
 
-        $order = Order::where('order_code', $order_id)->first();
+        $order = Order::with(['user', 'schedule.ship', 'schedule.originPort', 'schedule.destinationPort', 'passengers'])->where('order_code', $order_id)->first();
 
         if (!$order) {
             return false;
         }
+
+        $oldStatus = $order->status;
 
         if ($transaction == 'capture') {
             if ($type == 'credit_card') {
@@ -109,6 +111,15 @@ class PaymentController extends Controller
             $order->update(['status' => 'cancel']);
         } else if ($transaction == 'cancel') {
             $order->update(['status' => 'cancel']);
+        }
+
+        // Send email if status changed to paid
+        if ($oldStatus !== 'paid' && $order->status === 'paid') {
+            try {
+                \Illuminate\Support\Facades\Mail::to($order->user->email)->send(new \App\Mail\OrderApprovedNotification($order));
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error('Failed to send order approval email: ' . $e->getMessage());
+            }
         }
 
         Payment::updateOrCreate(
