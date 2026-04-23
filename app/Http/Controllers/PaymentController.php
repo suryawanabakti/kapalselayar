@@ -7,6 +7,7 @@ use App\Models\Payment;
 use Illuminate\Http\Request;
 use Midtrans\Notification;
 use Midtrans\Config;
+use Midtrans\Transaction;
 
 class PaymentController extends Controller
 {
@@ -21,7 +22,32 @@ class PaymentController extends Controller
     public function notification(Request $request)
     {
         $notif = new Notification();
+        $this->updateStatus($notif);
 
+        return response()->json(['message' => 'Success']);
+    }
+
+    public function finish(Request $request)
+    {
+        $order_id = $request->order_id;
+
+        if ($order_id) {
+            try {
+                $status = Transaction::status($order_id);
+                $this->updateStatus($status);
+            } catch (\Exception $e) {
+                // Fallback if status check fails
+            }
+        }
+
+        return view('bookings.finish', [
+            'order_id' => $order_id,
+            'status' => $request->status ?? $request->transaction_status,
+        ]);
+    }
+
+    private function updateStatus($notif)
+    {
         $transaction = $notif->transaction_status;
         $type = $notif->payment_type;
         $order_id = $notif->order_id;
@@ -30,7 +56,7 @@ class PaymentController extends Controller
         $order = Order::where('order_code', $order_id)->first();
 
         if (!$order) {
-            return response()->json(['message' => 'Order not found'], 404);
+            return false;
         }
 
         if ($transaction == 'capture') {
@@ -56,21 +82,13 @@ class PaymentController extends Controller
         Payment::updateOrCreate(
             ['order_id' => $order->id],
             [
-                'midtrans_order_id' => $notif->transaction_id,
+                'midtrans_order_id' => $notif->transaction_id ?? $notif->transaction_id,
                 'payment_type' => $type,
                 'transaction_status' => $transaction,
                 'payload' => json_decode(json_encode($notif), true),
             ]
         );
 
-        return response()->json(['message' => 'Success']);
-    }
-
-    public function finish(Request $request)
-    {
-        return view('bookings.finish', [
-            'order_id' => $request->order_id,
-            'status' => $request->transaction_status,
-        ]);
+        return true;
     }
 }
