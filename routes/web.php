@@ -57,5 +57,6 @@ Route::middleware('auth')->group(function () {
 
 Route::post('/payment/notification', [PaymentController::class, 'notification'])->name('payment.notification');
 Route::get('/payment/finish', [PaymentController::class, 'finish'])->name('payment.finish');
+Route::get('/payment/pay/{order:order_code}', [PaymentController::class, 'pay'])->name('payment.pay');
 
 require __DIR__ . '/auth.php';

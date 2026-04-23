@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Midtrans\Notification;
 use Midtrans\Config;
 use Midtrans\Transaction;
+use Midtrans\Snap;
 
 class PaymentController extends Controller
 {
@@ -44,6 +45,37 @@ class PaymentController extends Controller
             'order_id' => $order_id,
             'status' => $request->status ?? $request->transaction_status,
         ]);
+    }
+
+    public function pay(Order $order)
+    {
+        if ($order->user_id !== auth()->id() || $order->status !== 'pending') {
+            abort(403);
+        }
+
+        try {
+            $params = [
+                'transaction_details' => [
+                    'order_id' => $order->order_code,
+                    'gross_amount' => $order->total_price,
+                ],
+                'customer_details' => [
+                    'first_name' => auth()->user()->name ?? 'Guest',
+                    'email' => auth()->user()->email ?? 'guest@example.com',
+                ],
+            ];
+
+            $snapToken = Snap::getSnapToken($params);
+
+            return view('bookings.checkout', compact('order', 'snapToken'));
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            if (str_contains($message, 'order_id sudah digunakan') || str_contains($message, 'order_id already used')) {
+                return redirect()->route('user.transactions')->with('error', 'Pembayaran tidak dapat dilanjutkan karena kode order ini sudah pernah digunakan di Midtrans. Silakan lakukan pemesanan tiket ulang (beli tiket baru).');
+            }
+
+            return redirect()->route('user.transactions')->with('error', 'Terjadi kesalahan saat menghubungi Midtrans: ' . $message);
+        }
     }
 
     private function updateStatus($notif)

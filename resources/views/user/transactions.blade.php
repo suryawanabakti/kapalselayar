@@ -10,6 +10,18 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
                     <h3 class="text-xl font-bold text-gray-900 mb-6">Riwayat Pemesanan Tiket</h3>
+                    
+                    @if (session('success'))
+                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6" role="alert">
+                            <span class="block sm:inline">{{ session('success') }}</span>
+                        </div>
+                    @endif
+
+                    @if (session('error'))
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
+                            <span class="block sm:inline">{{ session('error') }}</span>
+                        </div>
+                    @endif
 
                     @if ($orders->count() > 0)
                         <div class="space-y-4">
@@ -82,12 +94,12 @@
                                         <p class="text-sm text-gray-500">
                                             Dipesan pada: {{ $order->created_at->format('d M Y H:i') }}
                                         </p>
-                                        @if ($order->status === 'pending' && $order->payment)
-                                            <a href="{{ route('bookings.show', $order->schedule) }}"
-                                                class="text-blue-600 hover:text-blue-800 font-medium text-sm">
-                                                Lanjutkan Pembayaran →
-                                            </a>
-                                        @endif
+                                        @if ($order->status === 'pending')
+                                             <a href="{{ route('payment.pay', $order->order_code) }}"
+                                                 class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm transition">
+                                                 Bayar Sekarang
+                                             </a>
+                                         @endif
                                     </div>
                                 </div>
                             @endforeach
