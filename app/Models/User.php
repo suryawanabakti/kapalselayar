@@ -49,13 +49,28 @@ class User extends Authenticatable
         ];
     }
 
+    const ROLE_SUPER_ADMIN = 'super_admin';
+    const ROLE_ADMIN = 'admin';
+    const ROLE_PENJAGA = 'penjaga';
+    const ROLE_USER = 'user';
+
     public function isSuperAdmin()
     {
-        return $this->role === 'super_admin';
+        return $this->role === self::ROLE_SUPER_ADMIN;
     }
 
     public function isAdmin()
     {
-        return $this->role === 'admin';
+        return $this->role === self::ROLE_ADMIN;
+    }
+
+    public function isPenjaga()
+    {
+        return $this->role === self::ROLE_PENJAGA;
+    }
+
+    public function isUser()
+    {
+        return $this->role === self::ROLE_USER;
     }
 }

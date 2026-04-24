@@ -14,12 +14,6 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     @auth
                         @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin')
-                            <x-nav-link :href="url('/')" :active="request()->is('/')">
-                                {{ __('Beranda') }}
-                            </x-nav-link>
-                            <x-nav-link :href="route('schedules.index')" :active="request()->routeIs('schedules.index')">
-                                {{ __('Jadwal') }}
-                            </x-nav-link>
                             <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                                 {{ __('Dashboard') }}
                             </x-nav-link>
@@ -35,6 +29,10 @@
                             <x-nav-link :href="route('admin.reports')" :active="request()->routeIs('admin.reports')">
                                 {{ __('Laporan') }}
                             </x-nav-link>
+                            <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                                {{ __('Kelola Pengguna') }}
+                            </x-nav-link>
+                        @elseif(auth()->user()->role === 'penjaga')
                             <x-nav-link :href="route('admin.scanner')" :active="request()->routeIs('admin.scanner')">
                                 {{ __('Scan Tiket') }}
                             </x-nav-link>
@@ -126,12 +124,6 @@
         <div class="pt-2 pb-3 space-y-1">
             @auth
                 @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin')
-                    <x-responsive-nav-link :href="url('/')" :active="request()->is('/')">
-                        {{ __('Beranda') }}
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('schedules.index')" :active="request()->routeIs('schedules.index')">
-                        {{ __('Jadwal') }}
-                    </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                         {{ __('Dashboard') }}
                     </x-responsive-nav-link>
@@ -147,6 +139,13 @@
                     <x-responsive-nav-link :href="route('admin.reports')" :active="request()->routeIs('admin.reports')">
                         {{ __('Laporan') }}
                     </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                        {{ __('Kelola Pengguna') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('admin.scanner')" :active="request()->routeIs('admin.scanner')">
+                        {{ __('Scan Tiket') }}
+                    </x-responsive-nav-link>
+                @elseif(auth()->user()->role === 'penjaga')
                     <x-responsive-nav-link :href="route('admin.scanner')" :active="request()->routeIs('admin.scanner')">
                         {{ __('Scan Tiket') }}
                     </x-responsive-nav-link>

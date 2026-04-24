@@ -83,7 +83,7 @@
                     <!-- QR Code Section -->
                     <div class="flex flex-col items-center justify-center p-4">
                         <div class="bg-white p-4 rounded-2xl shadow-inner mb-4 border border-gray-100">
-                            {!! SimpleSoftwareIO\QrCode\Facades\QrCode::size(200)->generate($passenger->ticket_code) !!}
+                            {!! app('qrcode')->size(200)->generate($passenger->ticket_code) !!}
                         </div>
                         <p class="text-sm text-gray-500 text-center mb-8">
                             Scan QR Code ini di pelabuhan saat keberangkatan untuk validasi tiket.
