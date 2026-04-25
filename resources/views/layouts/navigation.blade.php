@@ -26,6 +26,9 @@
                             <x-nav-link :href="route('admin.ports.index')" :active="request()->routeIs('admin.ports.*')">
                                 {{ __('Kelola Pelabuhan') }}
                             </x-nav-link>
+                            <x-nav-link :href="route('admin.ships.index')" :active="request()->routeIs('admin.ships.*')">
+                                {{ __('Kelola Kapal') }}
+                            </x-nav-link>
                             <x-nav-link :href="route('admin.reports')" :active="request()->routeIs('admin.reports')">
                                 {{ __('Laporan') }}
                             </x-nav-link>
@@ -135,6 +138,9 @@
                     </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('admin.ports.index')" :active="request()->routeIs('admin.ports.*')">
                         {{ __('Kelola Pelabuhan') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('admin.ships.index')" :active="request()->routeIs('admin.ships.*')">
+                        {{ __('Kelola Kapal') }}
                     </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('admin.reports')" :active="request()->routeIs('admin.reports')">
                         {{ __('Laporan') }}

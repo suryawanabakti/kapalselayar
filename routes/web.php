@@ -7,6 +7,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ScheduleController as AdminScheduleController;
 use App\Http\Controllers\Admin\PortController as AdminPortController;
+use App\Http\Controllers\Admin\ShipController as AdminShipController;
 use App\Http\Controllers\User\TransactionController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +50,9 @@ Route::middleware(['auth', 'role:admin,super_admin'])->prefix('admin')->name('ad
 
     // Port Management
     Route::resource('ports', AdminPortController::class);
+
+    // Ship Management
+    Route::resource('ships', AdminShipController::class);
 
     // User Management
     Route::resource('users', AdminUserController::class);
