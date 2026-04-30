@@ -33,11 +33,6 @@ class TransactionController extends Controller
             ->where('ticket_code', $ticket_code)
             ->firstOrFail();
 
-        // Ensure only the owner can see the ticket (or admin)
-        if ($passenger->order->user_id !== auth()->id() && auth()->user()->role === 'user') {
-            abort(403);
-        }
-
         return view('user.ticket', compact('passenger'));
     }
 }
