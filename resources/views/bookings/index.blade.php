@@ -26,9 +26,10 @@
         }
 
         .text-gradient {
-            background: linear-gradient(135deg, #ffffff 0%, #93c5fd 100%);
+            background: linear-gradient(to right, #FFFFFF, #A5D8FF);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.2));
         }
 
         .reveal {
@@ -86,7 +87,7 @@
             </h1>
 
             <p
-                class="text-lg md:text-2xl mb-16 text-blue-50/90 max-w-4xl mx-auto leading-relaxed font-medium drop-shadow-lg">
+                class="text-lg md:text-2xl mb-16 text-white/85 max-w-4xl mx-auto leading-relaxed font-medium drop-shadow-lg" style="color: rgba(255, 255, 255, 0.85);">
                 Gerbang digital menuju eksotisme Kepulauan Selayar. Nikmati pengalaman pemesanan tiket kapal tercepat,
                 teraman, dan termudah.
             </p>

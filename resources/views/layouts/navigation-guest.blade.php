@@ -67,10 +67,11 @@
 
                     @foreach ($links as $link)
                         <a href="{{ $link['url'] }}" id="{{ $link['id'] }}"
-                            class="nav-link relative px-5 py-2 text-xs font-black uppercase tracking-[0.2em] transition-all duration-500 {{ $link['active'] ? 'text-blue-400 active-link' : 'text-white/80 hover:text-white' }}">
+                            class="nav-link relative px-5 py-2 text-xs font-black uppercase tracking-[0.2em] transition-all duration-500 {{ $link['active'] ? 'text-[#38BDF8] active-link' : 'text-white/70 hover:text-white' }}"
+                            style="{{ $link['active'] ? 'color: #38BDF8;' : 'color: rgba(255, 255, 255, 0.7);' }}">
                             {{ $link['label'] }}
                             <span
-                                class="active-indicator absolute bottom-0 left-5 right-5 h-1 bg-blue-500 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.5)] {{ $link['active'] ? 'opacity-100' : 'opacity-0' }} transition-opacity duration-500"></span>
+                                class="active-indicator absolute bottom-0 left-5 right-5 h-1 bg-[#38BDF8] rounded-full shadow-[0_0_15px_rgba(56,189,248,0.5)] {{ $link['active'] ? 'opacity-100' : 'opacity-0' }} transition-opacity duration-500"></span>
                         </a>
                     @endforeach
                 </div>
@@ -245,9 +246,11 @@
         color: #374151 !important;
     }
 
-    .glass-nav-active .hamburger-btn {
-        background-color: #ffffff !important;
-        border-color: #f3f4f6 !important;
-        color: #6b7280 !important;
+    .glass-nav-active .user-dropdown-btn:hover {
+        background-color: #E0F2FE !important;
+    }
+
+    .glass-nav-active .hamburger-btn:hover {
+        background-color: #E0F2FE !important;
     }
 </style>
