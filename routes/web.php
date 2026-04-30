@@ -63,7 +63,7 @@ Route::middleware(['auth', 'role:user'])->prefix('user')->name('user.')->group(f
     Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions');
     Route::get('/transactions/{id}', [TransactionController::class, 'show'])->name('transactions.show');
 });
-Route::get('/ticket/{ticket_code}', [TransactionController::class, 'ticket'])->name('transactions.ticket');
+Route::get('/ticket/{ticket_code}', [TransactionController::class, 'ticket'])->name('user.transactions.ticket');
 
 Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/bookings/{schedule}', [BookingController::class, 'show'])->name('bookings.show');
