@@ -67,6 +67,18 @@
                                         <p class="text-xs text-gray-500 uppercase tracking-wider">Tujuan</p>
                                         <p id="p-route" class="font-bold text-gray-900"></p>
                                     </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500 uppercase tracking-wider">Harga</p>
+                                        <p id="p-price" class="font-bold text-gray-900 text-blue-600"></p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500 uppercase tracking-wider">Tanggal</p>
+                                        <p id="p-date" class="font-bold text-gray-900"></p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500 uppercase tracking-wider">Jam</p>
+                                        <p id="p-time" class="font-bold text-gray-900"></p>
+                                    </div>
                                 </div>
                             </div>
 
@@ -175,6 +187,13 @@
                 document.getElementById('p-ship').textContent = data.passenger.order.schedule.ship.name;
                 document.getElementById('p-route').textContent =
                     `${data.passenger.order.schedule.origin_port.name} → ${data.passenger.order.schedule.destination_port.name}`;
+                document.getElementById('p-price').textContent = new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR',
+                    maximumFractionDigits: 0
+                }).format(data.passenger.order.schedule.price);
+                document.getElementById('p-date').textContent = data.passenger.order.schedule.departure_date;
+                document.getElementById('p-time').textContent = data.passenger.order.schedule.departure_time;
                 passengerInfo.classList.remove('hidden');
             } else {
                 iconContainer.innerHTML = `<div class="w-20 h-20 bg-red-100 text-red-600 rounded-full flex items-center justify-center">
@@ -191,6 +210,13 @@
                     document.getElementById('p-ship').textContent = data.passenger.order.schedule.ship.name;
                     document.getElementById('p-route').textContent =
                         `${data.passenger.order.schedule.origin_port.name} → ${data.passenger.order.schedule.destination_port.name}`;
+                    document.getElementById('p-price').textContent = new Intl.NumberFormat('id-ID', {
+                        style: 'currency',
+                        currency: 'IDR',
+                        maximumFractionDigits: 0
+                    }).format(data.passenger.order.schedule.price);
+                    document.getElementById('p-date').textContent = data.passenger.order.schedule.departure_date;
+                    document.getElementById('p-time').textContent = data.passenger.order.schedule.departure_time;
                     passengerInfo.classList.remove('hidden');
                 } else {
                     passengerInfo.classList.add('hidden');
