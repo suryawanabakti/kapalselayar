@@ -78,88 +78,42 @@
                 </form>
             </div>
 
-            <!-- Schedules Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                @forelse($schedules as $schedule)
-                    <div
-                        class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300">
-                        <!-- Ship Header -->
-                        <div class="bg-gradient-to-r from-blue-600 to-indigo-600 p-6 text-white">
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <h3 class="text-2xl font-bold mb-1">{{ $schedule->ship->name }}</h3>
-                                    <p class="text-blue-100 text-sm font-semibold mb-1">
-                                        ⛴️ {{ optional($schedule->originPort)->name }} ➔ {{ optional($schedule->destinationPort)->name }}
-                                    </p>
-                                    <p class="text-blue-100 text-sm">Kapasitas: {{ $schedule->ship->capacity }} orang
-                                    </p>
-                                </div>
-                                <div class="bg-white bg-opacity-20 backdrop-blur-sm px-3 py-1 rounded-full">
-                                    <span class="text-sm font-bold">{{ $schedule->quota }} Tersedia</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Schedule Details -->
-                        <div class="p-6 space-y-4">
-                            <div class="flex items-center text-gray-700">
-                                <div class="bg-blue-100 p-2 rounded-lg mr-3">
-                                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                        </path>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-gray-500">Tanggal Keberangkatan</p>
-                                    <p class="font-semibold">
-                                        {{ \Carbon\Carbon::parse($schedule->departure_date)->format('d M Y') }}</p>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center text-gray-700">
-                                <div class="bg-green-100 p-2 rounded-lg mr-3">
-                                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-gray-500">Waktu Keberangkatan</p>
-                                    <p class="font-semibold">
-                                        {{ \Carbon\Carbon::parse($schedule->departure_time)->format('H:i') }} WITA</p>
-                                </div>
-                            </div>
-
-                            <div class="border-t pt-4 mt-4">
-                                <div class="flex justify-between items-center mb-4">
-                                    <span class="text-gray-600">Harga per tiket</span>
-                                    <span class="text-3xl font-bold text-blue-600">Rp
-                                        {{ number_format($schedule->price, 0, ',', '.') }}</span>
-                                </div>
-
-                                <a href="{{ route('bookings.show', $schedule) }}"
-                                    class="block w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-center font-bold py-3 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300">
-                                    🎫 Pesan Tiket Sekarang
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                @empty
-                    <div class="col-span-full">
-                        <div class="bg-white rounded-2xl border-2 border-dashed border-gray-300 p-12 text-center">
-                            <div class="text-6xl mb-4">🚢</div>
-                            <h3 class="text-xl font-bold text-gray-900 mb-2">Tidak Ada Jadwal Ditemukan</h3>
-                            <p class="text-gray-600 mb-4">Coba ubah filter pencarian Anda</p>
-                            <a href="{{ route('schedules.index') }}"
-                                class="inline-block text-blue-600 hover:text-blue-800 font-medium">
-                                Reset Filter →
-                            </a>
-                        </div>
-                    </div>
-                @endforelse
+            <!-- Schedules Table -->
+            <div class="bg-white rounded-2xl shadow p-6 overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kapal</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rute</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Waktu</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Harga</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Kapasitas</th>
+                            <th class="px-6 py-3"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @forelse($schedules as $schedule)
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-semibold text-gray-900">{{ $schedule->ship->name }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ optional($schedule->originPort)->name }} → {{ optional($schedule->destinationPort)->name }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ \Carbon\Carbon::parse($schedule->departure_date)->format('d M Y') }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ \Carbon\Carbon::parse($schedule->departure_time)->format('H:i') }} WITA</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-right text-blue-600">Rp {{ number_format($schedule->price, 0, ',', '.') }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-700">{{ $schedule->quota }} / {{ $schedule->ship->capacity }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
+                                    <a href="{{ route('bookings.show', $schedule) }}" class="inline-flex items-center px-3 py-1 bg-blue-600 text-white rounded-md shadow-sm">🎫 Pesan</a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="px-6 py-12 text-center text-gray-500">Tidak Ada Jadwal Ditemukan</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
 
             <!-- Pagination -->

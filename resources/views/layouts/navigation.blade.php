@@ -35,7 +35,7 @@
                             <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
                                 {{ __('Kelola Pengguna') }}
                             </x-nav-link>
-                        @elseif(auth()->user()->role === 'penjaga')
+                        @elseif(auth()->user()->role === 'petugas')
                             <x-nav-link :href="route('admin.scanner')" :active="request()->routeIs('admin.scanner')">
                                 {{ __('Scan Tiket') }}
                             </x-nav-link>
@@ -151,7 +151,7 @@
                     <x-responsive-nav-link :href="route('admin.scanner')" :active="request()->routeIs('admin.scanner')">
                         {{ __('Scan Tiket') }}
                     </x-responsive-nav-link>
-                @elseif(auth()->user()->role === 'penjaga')
+                @elseif(auth()->user()->role === 'petugas')
                     <x-responsive-nav-link :href="route('admin.scanner')" :active="request()->routeIs('admin.scanner')">
                         {{ __('Scan Tiket') }}
                     </x-responsive-nav-link>

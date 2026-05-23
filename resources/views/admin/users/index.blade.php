@@ -38,7 +38,7 @@
                             <option value="">Semua Role</option>
                             <option value="super_admin" {{ request('role') == 'super_admin' ? 'selected' : '' }}>Super Admin</option>
                             <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                            <option value="penjaga" {{ request('role') == 'penjaga' ? 'selected' : '' }}>Penjaga</option>
+                               <option value="petugas" {{ request('role') == 'petugas' ? 'selected' : '' }}>Petugas</option>
                             <option value="user" {{ request('role') == 'user' ? 'selected' : '' }}>User</option>
                         </select>
                     </div>
@@ -93,7 +93,7 @@
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                                                 {{ $user->role === 'super_admin' ? 'bg-purple-100 text-purple-800' : 
                                                    ($user->role === 'admin' ? 'bg-blue-100 text-blue-800' : 
-                                                   ($user->role === 'penjaga' ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-800')) }}">
+                                                       ($user->role === 'petugas' ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-800')) }}">
                                                 {{ ucfirst(str_replace('_', ' ', $user->role)) }}
                                             </span>
                                         </td>

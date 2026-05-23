@@ -14,6 +14,7 @@ class Passenger extends Model
         'order_id',
         'name',
         'nik',
+        'email',
         'ticket_code',
         'is_validated',
         'validated_at'

@@ -80,14 +80,18 @@
 
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center">
 
+            <!-- Centered Logo -->
+            <div class="mb-8">
+                <img src="{{ asset('images/logo-selayar.png') }}" alt="Logo Selayar" class="w-32 h-32 md:w-32 md:h-32 object-contain mx-auto drop-shadow-2xl ">
+            </div>
 
-            <h1 class="text-6xl md:text-8xl font-black mb-10 tracking-tighter leading-[0.9] animate-fade-in-up">
+            <h1 class="text-6xl md:text-8xl font-black mb-10 tracking-tighter leading-[0.9] ">
                 <span class="block">REDEFINING</span>
                 <span class="text-gradient drop-shadow-2xl">JOURNEYS.</span>
             </h1>
 
             <p
-                class="text-lg md:text-2xl mb-16 text-white/85 max-w-4xl mx-auto leading-relaxed font-medium drop-shadow-lg" style="color: rgba(255, 255, 255, 0.85);">
+                class="text-lg md:text-2xl mb-16 text-white max-w-4xl mx-auto leading-relaxed font-medium drop-shadow-lg">
                 Gerbang digital menuju eksotisme Kepulauan Selayar. Nikmati pengalaman pemesanan tiket kapal tercepat,
                 teraman, dan termudah.
             </p>

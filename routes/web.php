@@ -24,7 +24,7 @@ Route::get('/dashboard', function () {
         return redirect()->route('admin.dashboard');
     }
 
-    if ($user->role === 'penjaga') {
+    if ($user->role === 'petugas') {
         return redirect()->route('admin.scanner');
     }
 
@@ -32,7 +32,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Admin & Penjaga shared routes (Scanner)
-Route::middleware(['auth', 'role:admin,super_admin,penjaga'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'role:admin,super_admin,petugas'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/scanner', [AdminDashboardController::class, 'scanner'])->name('scanner');
     Route::post('/validate-ticket', [AdminDashboardController::class, 'validateTicket'])->name('validate-ticket');
 });

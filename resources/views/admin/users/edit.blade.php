@@ -47,7 +47,7 @@
                                 <x-input-label for="role" :value="__('Role')" />
                                 <select id="role" name="role" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
                                     <option value="user" {{ old('role', $user->role) == 'user' ? 'selected' : '' }}>User</option>
-                                    <option value="penjaga" {{ old('role', $user->role) == 'penjaga' ? 'selected' : '' }}>Penjaga</option>
+                                    <option value="petugas" {{ old('role', $user->role) == 'petugas' ? 'selected' : '' }}>Petugas</option>
                                     <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
                                     <option value="super_admin" {{ old('role', $user->role) == 'super_admin' ? 'selected' : '' }}>Super Admin</option>
                                 </select>

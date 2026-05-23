@@ -51,7 +51,7 @@ class User extends Authenticatable
 
     const ROLE_SUPER_ADMIN = 'super_admin';
     const ROLE_ADMIN = 'admin';
-    const ROLE_PENJAGA = 'penjaga';
+    const ROLE_PETUGAS = 'petugas';
     const ROLE_USER = 'user';
 
     public function isSuperAdmin()
@@ -66,7 +66,7 @@ class User extends Authenticatable
 
     public function isPenjaga()
     {
-        return $this->role === self::ROLE_PENJAGA;
+        return $this->role === self::ROLE_PETUGAS;
     }
 
     public function isUser()

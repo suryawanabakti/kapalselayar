@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Schedule;
 use App\Models\Order;
 use App\Models\Passenger;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Midtrans\Snap;
 use Midtrans\Config;
+use Midtrans\Snap;
 
 class BookingController extends Controller
 {
@@ -54,7 +54,8 @@ class BookingController extends Controller
             'schedule_id' => 'required|exists:schedules,id',
             'passengers' => 'required|array|min:1',
             'passengers.*.name' => 'required|string',
-            'passengers.*.nik' => 'required|string|size:16',
+            'passengers.*.nik' => 'required|string|size:16|unique:passengers,nik',
+            'passengers.*.email' => 'required|email',
         ]);
 
         $schedule = Schedule::findOrFail($request->schedule_id);
@@ -63,7 +64,7 @@ class BookingController extends Controller
 
         return DB::transaction(function () use ($request, $schedule, $totalTicket, $totalPrice) {
             $order = Order::create([
-                'order_code' => 'ORD-' . strtoupper(Str::random(10)),
+                'order_code' => 'ORD-'.strtoupper(Str::random(10)),
                 'user_id' => auth()->id(),
                 'schedule_id' => $schedule->id,
                 'total_ticket' => $totalTicket,
@@ -93,6 +94,13 @@ class BookingController extends Controller
             $admins = \App\Models\User::whereIn('role', ['admin', 'super_admin'])->get();
             foreach ($admins as $admin) {
                 \Illuminate\Support\Facades\Mail::to($admin->email)->send(new \App\Mail\NewOrderNotification($order));
+            }
+
+            // Send notification to each passenger email (including other passengers)
+            foreach ($order->passengers as $passenger) {
+                if ($passenger->email) {
+                    \Illuminate\Support\Facades\Mail::to($passenger->email)->send(new \App\Mail\PassengerTicketNotification($passenger));
+                }
             }
 
             return view('bookings.checkout', compact('order', 'snapToken'));

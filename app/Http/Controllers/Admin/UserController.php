@@ -51,7 +51,7 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'string', 'min:8'],
-            'role' => ['required', Rule::in(['super_admin', 'admin', 'penjaga', 'user'])],
+            'role' => ['required', Rule::in(['super_admin', 'admin', 'petugas', 'user'])],
             'nik' => ['required', 'string', 'max:20', 'unique:'.User::class],
             'phone' => ['required', 'string', 'max:20'],
         ]);
@@ -79,7 +79,7 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
-            'role' => ['required', Rule::in(['super_admin', 'admin', 'penjaga', 'user'])],
+            'role' => ['required', Rule::in(['super_admin', 'admin', 'petugas', 'user'])],
             'nik' => ['required', 'string', 'max:20', Rule::unique(User::class)->ignore($user->id)],
             'phone' => ['required', 'string', 'max:20'],
         ]);
